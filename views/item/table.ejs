@@ -1,0 +1,135 @@
+<!-- DataTales Example -->
+
+<% if(UserInfo!="") { %>
+<div class="card shadow mb-4">
+  <div class="card-body">
+    <form method="POST" name="myForm1" id="myForm1">
+      <input type="number" name="Saldo" id="Saldo">
+      <button type="button" class="btn btn-outline-danger btn-sm" onclick="addSaldo()">
+        Tambah Saldo
+      </button>
+    </form>
+  </div>
+</div>
+
+
+<div class="card shadow mb-4">
+  <div class="card-body">
+    <form method="GET" name="myForm2" id="myForm2" action="transaction">
+      <button type="sumbit" class="btn btn-outline-danger btn-sm">
+        History Transaksi
+      </button>
+    </form>
+    <form method="GET" name="myForm3" id="myForm3" action="session">
+      <button type="sumbit" class="btn btn-outline-danger btn-sm">
+        Keluar
+      </button>
+    </form>
+  </div>
+</div>
+<% } %>
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <!-- Button trigger modal -->
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table
+        class="table table-bordered"
+        id="dataTable"
+        width="100%"
+        cellspacing="0"
+      >
+        <thead>
+          <tr>
+            <th>Nama</th>
+            <th>Merchant Nama</th>
+            <th>Harga</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(let i = 0; i < itemList.length; i++){ %>
+          <tr>
+            <td><%= itemList[i].name_ %></td>
+            <td><%= itemList[i].merchantname %></td>
+            <td><%= itemList[i].price %></td>
+            <td class="text-center">
+              <% if(UserInfo!="") { %>
+                <form method="POST" name="myForm" id="myForm">
+                  <input type="hidden" name="itemID" value="<%= itemList[i].id %>">
+                  <input type="hidden" name="merchantID" value="<%= itemList[i].merchantID %>">
+                  <button type="button" class="btn btn-outline-danger btn-sm" onclick="trans('<%= itemList[i].merchantID %>', '<%= itemList[i].id %>')">
+                    Beli
+                  </button>
+                </form>
+              <% } %>
+            </td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function trans(merchant, item) {
+    var getUrl = window.location;
+    var baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
+
+    var obj = { merchant: merchant, item: item };
+    var myJSON = JSON.stringify(obj);
+
+    var result;
+    var xhr = new XMLHttpRequest();
+    var url = baseUrl + "transaction/add";
+    xhr.onreadystatechange = function(){
+      if(this.readyState == 4 && this.status == 200){
+        result = JSON.parse(this.responseText);
+        if(!result.status) {
+          alert(result.values);
+        }
+        else {
+          alert("Sukses");
+          location.reload();
+        }
+      }
+    };
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(obj));
+  } 
+
+  function addSaldo() {
+    var getUrl = window.location;
+    var baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
+    var obj;
+    var myJSON;
+    var result;
+    var xhr = new XMLHttpRequest();
+    var url = baseUrl + "user/addsaldo";
+
+    var valueSaldo = document.getElementById("Saldo").value;
+    if(valueSaldo=="" || valueSaldo<0) alert("Nilai saldo tidak boleh kurang dari 0.")
+    else {
+      obj = { value: valueSaldo };
+      myJSON = JSON.stringify(obj);
+      xhr.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status == 200){
+          result = JSON.parse(this.responseText);
+          if(!result.status) {
+            alert(result.values);
+          }
+          else {
+            alert("Sukses");
+            location.reload();
+          }
+        }
+      };
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(JSON.stringify(obj));
+    }
+  } 
+</script>

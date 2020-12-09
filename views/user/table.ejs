@@ -1,0 +1,51 @@
+<div class="card shadow mb-4">
+  <div class="card-body">
+    <form method="GET" name="myForm2" id="myForm2" action="merchant">
+      <button type="sumbit" class="btn btn-outline-danger btn-sm">
+        Merchant
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <!-- Button trigger modal -->
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table
+        class="table table-bordered"
+        id="dataTable"
+        width="100%"
+        cellspacing="0"
+      >
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nama</th>
+            <th>Saldo</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(let i = 0; i < UserList.length; i++){ %>
+          <tr>
+            <td><%= UserList[i].id %></td>
+            <td><%= UserList[i].name_ %></td>
+            <td><%= UserList[i].Saldo %></td>
+            <td class="text-center">
+              <form action="/session/<%= UserList[i].id %>" method="GET">
+                <button type="submit" class="btn btn-outline-danger btn-sm">
+                  Belanja
+                </button>
+              </form>
+            </td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

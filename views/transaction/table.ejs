@@ -1,0 +1,145 @@
+<% if(UserInfo!="") { %>
+<div class="card shadow mb-4">
+  <div class="card-body">
+    <form method="GET" name="myForm2" id="myForm2" action="item">
+      <button type="sumbit" class="btn btn-outline-danger btn-sm">
+        Kembali
+      </button>
+    </form>
+  </div>
+</div>
+
+<div class="card shadow mb-4">
+  <div class="card-body">
+    <form method="POST" name="myForm1" id="myForm1">
+      <label>
+        Tanggal Mulai: (mm/dd/yyyy)<br>
+        <input type="date" name="dateStart" id="dateStart" value="<%= sess.dateStart %>">
+      </label>
+      <br>
+
+      <label>
+        Tanggal Akhir: (mm/dd/yyyy)<br>
+        <input type="date" name="dateEnd" id="dateEnd" value="<%= sess.dateEnd %>">
+      </label>
+      <br>
+
+      <label>
+        Nama Merchant:<br>
+        <input type="text" name="merchantName" id="merchantName" value="<%= sess.merchantName %>">
+      </label>
+      <br>
+      
+      <label>
+        Nama Item:<br>
+        <input type="text" name="itemName" id="itemName" value="<%= sess.itemName %>">
+      </label>
+      <br>
+
+      <button type="button" class="btn btn-outline-danger btn-sm" onclick="searchTrans()">
+        Cari
+      </button>
+      <button type="button" class="btn btn-outline-danger btn-sm" onclick="searchReset()">
+        Reset
+      </button>
+    </form>
+  </div>
+</div>
+<% } %>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <!-- Button trigger modal -->
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table
+        class="table table-bordered"
+        id="dataTable"
+        width="100%"
+        cellspacing="0"
+      >
+        <thead>
+          <tr>
+            <th>Tanggal</th>
+            <th>Nama User</th>
+            <th>Nama Item</th>
+            <th>Nama Merchant</th>
+            <th>Harga</th>
+            <th>Catatan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(let i = 0; i < transactionList.length; i++){ %>
+          <tr>
+            <td><%= transactionList[i].transactionDate %></td>
+            <td><%= transactionList[i].username_ %></td>
+            <td><%= transactionList[i].itemname %></td>
+            <td><%= transactionList[i].merchantname %></td>
+            <td><%= transactionList[i].price %></td>
+            <td><%= transactionList[i].note %></td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function searchTrans() {
+    var getUrl = window.location;
+    var baseUrl = getUrl .protocol + "//" + getUrl.host + "/";
+    var process = true;
+
+    var itemName = document.getElementById("itemName").value;
+    var merchantName = document.getElementById("merchantName").value;
+    var dateStart = document.getElementById("dateStart").value;
+    var dateEnd = document.getElementById("dateEnd").value;
+
+    if((dateStart!="" && !isValidDate(dateStart))) {
+      process = false;
+      alert("Format tanggal mulai tidak sesuai");
+    }
+
+    if((dateEnd!="" && !isValidDate(dateEnd))) {
+      process = false;
+      alert("Format tanggal akhir tidak sesuai");
+    }
+
+    var obj = { itemName: itemName, merchantName: merchantName, dateStart: dateStart, dateEnd: dateEnd };
+
+    var result;
+    var xhr = new XMLHttpRequest();
+    var url = baseUrl + "transaction/search";
+
+    if(process) {
+      xhr.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status == 200){
+          location.reload();
+        }
+      };
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(JSON.stringify(obj));
+    }
+  }
+
+  function searchReset() {
+    document.getElementById("itemName").value = "";
+    document.getElementById("merchantName").value = "";
+    document.getElementById("dateStart").value = "";
+    document.getElementById("dateEnd").value = "";
+    searchTrans();
+  }
+
+  function isValidDate(dateString) {
+    var regEx = /^\d{4}-\d{2}-\d{2}$/;
+    if(!dateString.match(regEx)) return false;  // Invalid format
+    var d = new Date(dateString);
+    var dNum = d.getTime();
+    if(!dNum && dNum !== 0) return false; // NaN value, Invalid date
+    return d.toISOString().slice(0,10) === dateString;
+  }
+</script>
