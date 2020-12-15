@@ -41,7 +41,7 @@ function getInfo(merchantid, itemid) {
 
   return new Promise((resolve, reject) => {
     try {
-      query = "SELECT * FROM Item WHERE merchantID = " + merchantid + " AND id = " + itemid;
+      query = "SELECT * FROM item WHERE merchantID = " + merchantid + " AND id = " + itemid;
       
       connection.query(query, function (error, rows, fields){
         a = rows.length;

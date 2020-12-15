@@ -59,6 +59,8 @@ app.use('/session', sessionRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
+  console.log("Request: ", req);
+  console.log("Response: ", res);
   next(createError(404));
 });
 

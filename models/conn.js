@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 var connection = mysql.createConnection({
-	host:'localhost',
+	host:'db-mysql',
 	user:'root',
 	password:'60132323abcd',
 	database:'btpns'
@@ -8,6 +8,7 @@ var connection = mysql.createConnection({
 connection.connect(function(error){
 	if(!!error) {
 		console.log(error);
+		process.exit(1)
 	} else {
 		console.log('Connectedsss..!');
 	}

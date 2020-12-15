@@ -12,9 +12,15 @@ async function _view(req, res) {
 
   //Ambil data user
   MerchantList = await merchantmodel.getList();
-  if(MerchantList=="") ErrorMsg = "Merchant tidak ditemukan";
+  if(MerchantList === "") ErrorMsg = "Merchant tidak ditemukan";
   
   res.render("./merchant/list", {
+    MerchantList,
+    ErrorMsg,
+    title: "LIST", // Untuk title dari aplikasi kita, saya manamakannya dengan CRUD
+  });
+
+  res.render("./merchant", {
     MerchantList,
     ErrorMsg,
     title: "LIST", // Untuk title dari aplikasi kita, saya manamakannya dengan CRUD

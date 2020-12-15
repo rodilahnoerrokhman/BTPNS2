@@ -12,7 +12,7 @@ function getList() {
 
   return new Promise((resolve, reject) => {
     try {
-      query = "SELECT * FROM Merchant ORDER BY id";
+      query = "SELECT * FROM merchant ORDER BY id";
 
       connection.query(query, function (error, rows, fields){
         if(error) resolve(error);
@@ -35,7 +35,7 @@ function getInfo(id) {
   return new Promise((resolve, reject) => {
     try {
       //Cek jenis kamar
-      query = "SELECT * FROM Merchant WHERE id = " + id;
+      query = "SELECT * FROM merchant WHERE id = " + id;
       
       connection.query(query, function (error, rows, fields){
         a = rows.length;
@@ -58,7 +58,7 @@ function updateSaldo(Object) {
   return new Promise((resolve, reject) => {
     try {
       //Cek jenis kamar
-      query = "UPDATE Merchant set Saldo = Saldo + " + Object.Saldo + " WHERE id = " + Object.id;
+      query = "UPDATE merchant set Saldo = Saldo + " + Object.Saldo + " WHERE id = " + Object.id;
       
       connection.query(query, function (error, rows, fields){
         if(error){

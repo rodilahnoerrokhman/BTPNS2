@@ -13,11 +13,17 @@ function getList() {
 
   return new Promise((resolve, reject) => {
     try {
-      query = "SELECT * FROM User ORDER BY id";
+      query = "SELECT * FROM user ORDER BY id";
+
+      console.log("Start query: ", query);
 
       connection.query(query, function (error, rows, fields){
+        console.log("The error: ", error);
+        console.log("The rows: ", rows);
         if(error) resolve(error);
         else {
+          console.log("The rows: ", rows);
+          console.log("Rows length: ", rows.length);
           if (rows.length > 0)  resolve(rows);
           else resolve("");
         }
@@ -35,7 +41,7 @@ function updateSaldo(Object) {
   return new Promise((resolve, reject) => {
     try {
       //Cek jenis kamar
-      query = "UPDATE User set Saldo = Saldo + " + Object.Saldo + " WHERE id = " + Object.id;
+      query = "UPDATE user set saldo = saldo + " + Object.Saldo + " WHERE id = " + Object.id;
       
       connection.query(query, function (error, rows, fields){
         if(error){
@@ -59,7 +65,7 @@ function getInfo(id) {
   return new Promise((resolve, reject) => {
     try {
       //Cek jenis kamar
-      query = "SELECT * FROM User WHERE id = " + id;
+      query = "SELECT * FROM user WHERE id = " + id;
       
       connection.query(query, function (error, rows, fields){
         a = rows.length;
