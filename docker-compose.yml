@@ -7,12 +7,14 @@ services:
       dockerfile: Dockerfile
     command: bash -c 'while !</dev/tcp/db-mysql/3306; do sleep1; done; npm start'
     ports:
-      - "3000:3000"
+      - "4000:3000"
     restart: always
     depends_on:
     - db-mysql
   db-mysql:
     container_name: db-mysql
+    hostname: db-mysql
+    image: db-mysql
     build:
       context: .
       dockerfile: DockerfileMySql
@@ -24,6 +26,8 @@ services:
       MYSQL_ROOT_PASSWORD: 60132323abcd
     expose:
       - "3306"
+    networks:
+      - default
     ports:
-      - "3306:3306"
+      - "3346:3306"
     restart: always

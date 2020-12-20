@@ -8,7 +8,7 @@ var connection = mysql.createConnection({
 connection.connect(function(error){
 	if(!!error) {
 		console.log(error);
-		process.exit(1)
+		process.exit(1);
 	} else {
 		console.log('Connectedsss..!');
 	}
