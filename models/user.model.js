@@ -41,7 +41,7 @@ function updateSaldo(Object) {
   return new Promise((resolve, reject) => {
     try {
       //Cek jenis kamar
-      query = "UPDATE user set saldo = saldo + " + Object.Saldo + " WHERE id = " + Object.id;
+      query = "UPDATE user set Saldo = Saldo + " + Object.Saldo + " WHERE id = " + Object.id;
       
       connection.query(query, function (error, rows, fields){
         if(error){

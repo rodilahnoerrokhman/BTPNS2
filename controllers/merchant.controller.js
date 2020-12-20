@@ -19,7 +19,8 @@ async function _view(req, res) {
     ErrorMsg,
     title: "LIST", // Untuk title dari aplikasi kita, saya manamakannya dengan CRUD
   });
-
+  
+  /** render ini tidak akan tampil, karena render sebelumnya yg akan terpanggil */
   res.render("./merchant", {
     MerchantList,
     ErrorMsg,
